@@ -56,5 +56,7 @@ def sql_query():
         conn.close()
         yield "ODBC_CONNECTION_STRING: {0}".format(connection_string + pwd)    
     except Exception as err:
-    ##    return f"{err.__class__.__name__}: {err}"
+        #return to client - only for debugging
+        yield f"{err.__class__.__name__}: {err}"
+        #let general exception handling handle it(log etc.)
         raise err

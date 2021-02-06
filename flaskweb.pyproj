@@ -36,7 +36,13 @@
     <Compile Include="flaskweb\views.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".ebextensions\platform\" />
     <Folder Include=".ebextensions\scripts\" />
+    <Folder Include=".platform\hooks\" />
+    <Folder Include=".platform\hooks\postdeploy\" />
+    <Folder Include=".platform\nginx\" />
+    <Folder Include=".platform\nginx\conf.d\" />
+    <Folder Include=".platform\nginx\conf.d\elasticbeanstalk\" />
     <Folder Include="flaskweb\" />
     <Folder Include="flaskweb\static\" />
     <Folder Include="flaskweb\static\content\" />
@@ -44,20 +50,33 @@
     <Folder Include="flaskweb\static\scripts\" />
     <Folder Include="flaskweb\templates\" />
     <Folder Include=".ebextensions\" />
+    <Folder Include=".platform\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include=".ebextensions\00packages.config">
+    <Content Include=".ebextensions\00-packages-certbot.config">
       <SubType>Code</SubType>
     </Content>
-    <Content Include=".ebextensions\00packages_mssql.config">
+    <Content Include=".ebextensions\00-packages-_base.config">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include=".ebextensions\00-packages-mssql.config">
       <SubType>Code</SubType>
     </Content>
     <Content Include=".ebextensions\00sample_log.config" />
+    <Content Include=".ebextensions\01-https-nginx-certbot.config">
+      <SubType>Code</SubType>
+    </Content>
     <Content Include=".ebextensions\01_setup_eb.config">
       <SubType>Code</SubType>
     </Content>
-    <Content Include=".ebextensions\01swap.config" />
+    <Content Include=".ebextensions\01-swap.config" />
+    <Content Include=".ebextensions\platform\nginx.conf" />
+    <Content Include=".ebextensions\scripts\add-certbot-renew.sh" />
     <Content Include=".ebextensions\scripts\add-swap-space.sh" />
+    <Content Include=".platform\hooks\postdeploy\99-cleanup.sh" />
+    <Content Include=".platform\hooks\postdeploy\00-setup-nginx-https.sh" />
+    <Content Include=".platform\nginx\conf.d\elasticbeanstalk\placeholder.txt" />
+    <Content Include=".platform\nginx\nginx.conf" />
     <Content Include="flaskweb\static\web.config" />
     <Content Include="requirements.txt" />
     <Content Include="flaskweb\static\content\bootstrap.css" />

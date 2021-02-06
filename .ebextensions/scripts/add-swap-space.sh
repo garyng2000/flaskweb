@@ -1,7 +1,7 @@
 #!/bin/bash
 
-set -o xtrace
-set -e
+#set -o xtrace
+#set -e
 
 if grep -E 'SwapTotal:\s+0+\s+kB' /proc/meminfo; then
     echo "Positively identified no swap space, creating some."

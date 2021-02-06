@@ -39,10 +39,11 @@ app.register_error_handler(Exception, handle_exceptions)
 #what AWS EB looks for 'application'
 application = app
 
+#this is not run if wsgi container invoke this
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')
     try:
-        PORT = int(environ.get('SERVER_PORT', '5000'))
+        PORT = int(environ.get('PORT', '8000'))
     except ValueError:
-        PORT = 5000
+        PORT = 8000
     application.run(HOST, PORT)
