@@ -18,6 +18,7 @@
     <Name>flaskweb</Name>
     <RootNamespace>flaskweb</RootNamespace>
     <InterpreterId>MSBuild|env|$(MSBuildProjectFullPath)</InterpreterId>
+    <WebBrowserPort>8000</WebBrowserPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,19 +32,34 @@
     <Compile Include="application.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="flaskweb\api\auth.py" />
+    <Compile Include="flaskweb\api\__init__.py" />
+    <Compile Include="flaskweb\config.py" />
+    <Compile Include="flaskweb\helper.py" />
+    <Compile Include="flaskweb\model\database.py" />
+    <Compile Include="flaskweb\model\__init__.py" />
+    <Compile Include="flaskweb\service\hdwallet.py" />
+    <Compile Include="flaskweb\service\__init__.py" />
+    <Compile Include="flaskweb\upload.py" />
     <Compile Include="runserver.py" />
     <Compile Include="flaskweb\__init__.py" />
     <Compile Include="flaskweb\views.py" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include=".ebextensions\letsencrypt\" />
     <Folder Include=".ebextensions\platform\" />
     <Folder Include=".ebextensions\scripts\" />
+    <Folder Include=".platform\confighooks\" />
+    <Folder Include=".platform\confighooks\postdeploy\" />
     <Folder Include=".platform\hooks\" />
     <Folder Include=".platform\hooks\postdeploy\" />
     <Folder Include=".platform\nginx\" />
     <Folder Include=".platform\nginx\conf.d\" />
     <Folder Include=".platform\nginx\conf.d\elasticbeanstalk\" />
     <Folder Include="flaskweb\" />
+    <Folder Include="flaskweb\api\" />
+    <Folder Include="flaskweb\model\" />
+    <Folder Include="flaskweb\service\" />
     <Folder Include="flaskweb\static\" />
     <Folder Include="flaskweb\static\content\" />
     <Folder Include="flaskweb\static\fonts\" />
@@ -53,7 +69,11 @@
     <Folder Include=".platform\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include=".ebextensions\00-alb-setup.config" />
     <Content Include=".ebextensions\00-packages-certbot.config">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include=".ebextensions\00-packages-freetds.config">
       <SubType>Code</SubType>
     </Content>
     <Content Include=".ebextensions\00-packages-_base.config">
@@ -63,21 +83,38 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include=".ebextensions\00sample_log.config" />
-    <Content Include=".ebextensions\01-https-nginx-certbot.config">
-      <SubType>Code</SubType>
-    </Content>
+    <Content Include=".ebextensions\00_runtime-env.config" />
+    <Content Include=".ebextensions\01_mount_efs.config" />
     <Content Include=".ebextensions\01_setup_eb.config">
       <SubType>Code</SubType>
     </Content>
     <Content Include=".ebextensions\01-swap.config" />
+    <Content Include=".ebextensions\02-https-nginx-certbot.config" />
+    <Content Include=".ebextensions\letsencrypt\cert.pem" />
+    <Content Include=".ebextensions\letsencrypt\chain.pem" />
+    <Content Include=".ebextensions\letsencrypt\fullchain.pem" />
+    <Content Include=".ebextensions\letsencrypt\privkey.pem" />
+    <Content Include=".ebextensions\letsencrypt\README" />
     <Content Include=".ebextensions\platform\nginx.conf" />
+    <Content Include=".ebextensions\platform\odbcinst.ini">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include=".ebextensions\platform\options-ssl-nginx.conf" />
+    <Content Include=".ebextensions\platform\ssl-dhparams.pem" />
     <Content Include=".ebextensions\scripts\add-certbot-renew.sh" />
     <Content Include=".ebextensions\scripts\add-swap-space.sh" />
+    <Content Include=".ebextensions\scripts\get-eb-info.sh">
+      <SubType>Code</SubType>
+    </Content>
+    <Content Include=".ebextensions\scripts\import-certificate.sh" />
+    <Content Include=".ebextensions\scripts\install-certbot.sh" />
     <Content Include=".platform\hooks\postdeploy\99-cleanup.sh" />
     <Content Include=".platform\hooks\postdeploy\00-setup-nginx-https.sh" />
     <Content Include=".platform\nginx\conf.d\elasticbeanstalk\placeholder.txt" />
+    <Content Include=".platform\nginx\conf.d\http-https-proxy.conf" />
     <Content Include=".platform\nginx\nginx.conf" />
     <Content Include="flaskweb\static\web.config" />
+    <Content Include="flaskweb\templates\test.html" />
     <Content Include="requirements.txt" />
     <Content Include="flaskweb\static\content\bootstrap.css" />
     <Content Include="flaskweb\static\content\bootstrap.min.css" />

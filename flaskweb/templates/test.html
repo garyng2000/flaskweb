@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<h2>{{ title }}.</h2>
+<h3>{{ message }}</h3>
+<script type="text/javascript">
+    function test(evt) {
+        $('#result').empty();
+        var url = $('#api_url').val();
+        var body = $('#jsonrpc_request').val();
+        var api_url = "{{ api_host }}" + url;
+        $.ajax(api_url, {
+            /* Set header for the XMLHttpRequest to get data from the web server
+            associated with userIdToken */
+            headers: {
+                'Authorization': 'Bearer ' + (window.firebaseUsrIdToken || ''),
+                'Access-Control-Allow-Origin': '*',
+                'X-Username': 'username',
+                'X-Password': 'secret'
+            },
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            data: body,
+        }).then(function (data, textStatus, jqXHR) {
+            var result = typeof data == "object" ? JSON.stringify(data) : data;
+            console.log(result);
+            $('#result').empty();
+            $('#result').html(result);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+            console.log(jqXHR.responseText);
+            $('#result').empty();
+            $('#result').html(jqXHR.responseText);
+        });
+    }
+</script>
+<div id="logged-out">
+    <h1>Firenotes</h1>
+    <h3>Sign in to access your notebook</h3>
+    <div id="firebaseui-auth-container"></div>
+</div>
+
+<div id="logged-in">
+    <h1>Welcome, <span id="user"></span>!</h1>
+    <h3>Enter a note and save it to your personal notebook</h3>
+    <div id="form">
+        <form action="" method="post">
+            <div class="form-group">
+                <textarea id="note-content"></textarea>
+            </div>
+            <div class="form-group">
+                <button id="add-note">Save note</button>
+                <button id="sign-out">Sign out</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<p>api endpoint (something like /api/auth)</p>
+<input id="api_url" value="/api/auth" />
+<br />
+<p>JSONRPC request(json string) in the form of: </p>
+<br />
+<textarea id="jsonrpc_request" rows="10" cols="100">{{ jsonrpc_request }}</textarea>
+<p>
+    {
+    "jsonrpc": "2.0",
+    "method": "register", "params": [],
+    "id": "2"
+    }
+</p>
+<div id="result">
+
+</div>
+<a href="#" class="btn btn-primary btn-large" onclick="test(this)">Test it &raquo;</a>
+
+<h1>File Upload</h1>
+<form method="POST" action="{{ url_for('form_post') }}" id="my-awesome-dropzone" enctype="multipart/form-data" class="dropzone">
+    <div class="fallback">
+        <input name="file" type="file" multiple />
+    </div>
+    <p>content json</p>
+    <textarea cols="200" rows="30" id="params" name="params">
+    {"field1":"something", "field2":15 }
+    </textarea>
+    <textarea cols="200" rows="30" id="post_result">
+
+    </textarea>
+    <button type="submit">Submit data and files!</button>
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+<script type="text/javascript">
+    Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+
+        // The configuration we've talked about above
+        autoProcessQueue: false,
+        uploadMultiple: true,
+        parallelUploads: 100,
+        maxFiles: 100,
+
+        // The setting up of the dropzone
+        init: function () {
+            var myDropzone = this;
+
+            // First change the button to actually tell Dropzone to process the queue.
+            this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
+                // Make sure that the form isn't actually being sent.
+                e.preventDefault();
+                e.stopPropagation();
+                myDropzone.processQueue();
+            });
+            this.on("sending", function (files, xhr, formData) {
+                xhr.setRequestHeader("Authorization", 'Bearer ' + (window.firebaseUsrIdToken || ''));
+            });
+            this.on("success", function (files, response) {
+            });
+
+            // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+            // of the sending event because uploadMultiple is set to true.
+            this.on("sendingmultiple", function () {
+                // Gets triggered when the form is actually being sent.
+                // Hide the success button or the complete form.
+            });
+            this.on("successmultiple", function (files, response) {
+                console.log(response);
+                $('#post_result').html(JSON.stringify(response));
+                // Gets triggered when the files have successfully been sent.
+                // Redirect user or notify of success.
+            });
+            this.on("errormultiple", function (files, response) {
+                $('#post_result').html(response.body);
+                // Gets triggered when there was an error sending the files.
+                // Maybe show form again, and notify user of error
+            });
+        }
+
+    }
+</script>
+{% endblock %}
