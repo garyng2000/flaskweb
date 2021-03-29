@@ -3,17 +3,19 @@
 # this requires IAM access to ElasticBeanStalkResource(DescribeEnvironments) and EC2(DescribeTags)
 # for getting EB environment info
 # {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#         {
-#             "Sid": "VisualEditor0",
-#             "Effect": "Allow",
-#             "Action": [
-#                 "elasticbeanstalk:DescribeEnvironments",
-#             ],
-#             "Resource": "*"
-#         }
-#     ]
+#    "Version": "2012-10-17",
+#    "Statement": [
+#        {
+#            "Sid": "VisualEditor0",
+#            "Effect": "Allow",
+#            "Action": [
+#                "elasticbeanstalk:DescribeEnvironmentResources",
+#                "elasticbeanstalk:DescribeEnvironments",
+#                "autoscaling:DescribeAutoScalingGroups"
+#            ],
+#            "Resource": "*"
+#        }
+#    ]
 # }
 
 # for retrieving EC2 instance related info
@@ -67,3 +69,6 @@ export ENVIRONMENT_ID=$environment_id
 cname=$(aws elasticbeanstalk describe-environments | jq -r --arg EnvironmentId "$environment_id" '.Environments[] | select(.EnvironmentId == $EnvironmentId) | .CNAME')
 echo environment_cname=$cname
 export ENVIRONMENT_CNAME=$cname
+load_balancer=$(aws elasticbeanstalk describe-environment-resources --environment-id "$environment_id" | jq -r '.EnvironmentResources.LoadBalancers[0].Name')
+echo $load_balancer
+export LOAD_BALANCER=$load_balancer

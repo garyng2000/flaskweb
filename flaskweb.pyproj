@@ -76,6 +76,8 @@
     <Content Include=".ebextensions\00-packages-freetds.config">
       <SubType>Code</SubType>
     </Content>
+    <Content Include=".ebextensions\00-packages-redis.config" />
+    <Content Include=".ebextensions\00-packages-_base-python.config" />
     <Content Include=".ebextensions\00-packages-_base.config">
       <SubType>Code</SubType>
     </Content>
@@ -83,6 +85,7 @@
       <SubType>Code</SubType>
     </Content>
     <Content Include=".ebextensions\00sample_log.config" />
+    <Content Include=".ebextensions\00_runtime-env-python.config" />
     <Content Include=".ebextensions\00_runtime-env.config" />
     <Content Include=".ebextensions\01_mount_efs.config" />
     <Content Include=".ebextensions\01_setup_eb.config">
