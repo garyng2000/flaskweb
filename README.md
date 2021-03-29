@@ -20,3 +20,7 @@ If the production cert is acquired, it would setup the periodic renew cronjob as
 The setup also work for HA(i.e. behind ELB) but one has to manually setup the listener for port 443 ELB(as it needs cert from AWS cert manager). There is a helper script which would acquire the production cert from letsencrypt and upload it to AWS cert manager which can then be bound to the ELB. Note that AWS also has a limit on how many upload/import one can do within a year(so don't do this often for testing or it would hit the limit).
 
 For those that must use ELB, ideally just let AWS do the cert issuing via the AWS cert manager, if you need custom domain rather than just the .ealsticbeanstalk.com(which you cannot control and must be through the letsencrypt way)
+
+If you are interested to nodejs, I have a nodejs version here(which I need for running my own walletconnect bridge). That is an interesting one as it use websocket so allows me to test out the ELB -> nginx -> nodejs in websocket scenario.
+
+https://github.com/garyng2000/node-walletconnect-bridge
