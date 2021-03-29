@@ -21,6 +21,6 @@ The setup also work for HA(i.e. behind ELB) but one has to manually setup the li
 
 For those that must use ELB, ideally just let AWS do the cert issuing via the AWS cert manager, if you need custom domain rather than just the .ealsticbeanstalk.com(which you cannot control and must be through the letsencrypt way)
 
-If you are interested to nodejs, I have a nodejs version here(which I need for running my own walletconnect bridge). That is an interesting one as it use websocket so allows me to test out the ELB -> nginx -> nodejs in websocket scenario.
+If you are interested in nodejs, I have a nodejs version here(which I need for running my own walletconnect bridge). That is an interesting one as it use websocket so allows me to test out the ELB -> nginx -> nodejs in websocket scenario.
 
 https://github.com/garyng2000/node-walletconnect-bridge
